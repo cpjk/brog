@@ -2,7 +2,11 @@ defmodule Blog.UserControllerTest do
   use Blog.ConnCase
 
   alias Blog.User
-  @valid_attrs %{first_name: "some content", last_name: "some content"}
+  @valid_attrs %{first_name: "some content",
+    last_name: "some content",
+    email: "ricksanchez@earth.com",
+    password: "rickytickytavy"}
+  @valid_stored_attrs Map.delete(@valid_attrs, :password)
   @invalid_attrs %{}
 
   setup do
@@ -23,7 +27,7 @@ defmodule Blog.UserControllerTest do
   test "creates resource and redirects when data is valid", %{conn: conn} do
     conn = post conn, user_path(conn, :create), user: @valid_attrs
     assert redirected_to(conn) == user_path(conn, :index)
-    assert Repo.get_by(User, @valid_attrs)
+    assert Repo.get_by(User, @valid_stored_attrs)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
@@ -53,13 +57,7 @@ defmodule Blog.UserControllerTest do
     user = Repo.insert! %User{}
     conn = put conn, user_path(conn, :update, user), user: @valid_attrs
     assert redirected_to(conn) == user_path(conn, :show, user)
-    assert Repo.get_by(User, @valid_attrs)
-  end
-
-  test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    user = Repo.insert! %User{}
-    conn = put conn, user_path(conn, :update, user), user: @invalid_attrs
-    assert html_response(conn, 200) =~ "Edit user"
+    assert Repo.get_by(User, @valid_stored_attrs)
   end
 
   test "deletes chosen resource", %{conn: conn} do
