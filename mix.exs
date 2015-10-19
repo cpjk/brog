@@ -37,7 +37,8 @@ defmodule Blog.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:cowboy, "~> 1.0"},
      {:comeonin, "~> 1.3"},
-     {:joken, "~> 0.16.1"}]
+     {:joken, "~> 0.15.0"},
+     {:guardian, "~> 0.6.3"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

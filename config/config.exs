@@ -5,6 +5,8 @@
 # is restricted to this project.
 use Mix.Config
 
+{:ok, guardian_secret} = File.read("guardian_secret")
+
 # Configures the endpoint
 config :blog, Blog.Endpoint,
   url: [host: "localhost"],
@@ -18,6 +20,15 @@ config :blog, Blog.Endpoint,
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
+
+config :joken, config_module: Guardian.JWT
+
+config :guardian, Guardian,
+  issuer: "Blog",
+  ttl: { 30, :days },
+  verify_issuer: true,
+  secret_key: guardian_secret,
+  serializer: Blog.GuardianSerializer
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
