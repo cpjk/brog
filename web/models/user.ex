@@ -1,6 +1,9 @@
 defmodule Blog.User do
   use Blog.Web, :model
 
+  alias Blog.User
+  alias Blog.Repo
+
   schema "users" do
     field :first_name, :string
     field :last_name, :string
@@ -34,6 +37,45 @@ defmodule Blog.User do
   def update_changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_update_fields, @optional_update_fields)
+  end
+
+  def new_session_changeset(model, params \\ :empty) do
+    model
+    |> cast(params, ~w(email password), ~w())
+  end
+
+  def create_session_changeset(params = %{"email" => email, "password" => password}) do
+    email
+    |> by_email
+    |> Repo.one
+    |> check_pw(params)
+  end
+
+  def by_email(email) do
+    from u in User, where: u.email == ^email
+  end
+
+  # If the user cannot be found, do a dunmmy check to prevent timing
+  # attacks and report that the email/password combination did not match
+  defp check_pw(nil, params) do
+    Comeonin.Bcrypt.dummy_checkpw
+
+    %User{}
+    |> new_session_changeset(params) # give the params back so we can refill the form fields
+    |> Ecto.Changeset.add_error(:email, "and password do not match")
+  end
+
+  defp check_pw(user = %User{}, params = %{"password" => password}) do
+    Comeonin.Bcrypt.checkpw(password, user.encrypted_password)
+    |> case do
+      true  ->
+        user
+        |> new_session_changeset(params)
+      false ->
+        %User{}
+        |> new_session_changeset(params)
+        |> Ecto.Changeset.add_error(:email, "and password do not match")
+    end
   end
 
   @doc """
