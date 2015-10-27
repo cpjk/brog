@@ -1,7 +1,9 @@
 <%= form_for @changeset, @action, [method: :post], fn f -> %>
   <%= if has_errors?(@changeset) do %>
     <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below:</p>
+      <%= poop_emoji %>
+      <%= thumbs_down %>
+      <p>We were unable to log you in:</p>
       <ul>
         <%= for {attr, message} <- f.errors do %>
           <li><%= humanize(attr) %> <%= message %></li>
