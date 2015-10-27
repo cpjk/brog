@@ -1,4 +1,6 @@
-# Blog
+# Brog
+
+Mostly just a chill project to check out phoenix's post-1.0 features :ok_hand:
 
 To start:
 
