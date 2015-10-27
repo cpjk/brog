@@ -22,6 +22,8 @@ defmodule Blog.Web do
 
       import Ecto.Changeset
       import Ecto.Query, only: [from: 1, from: 2]
+
+      require IEx
     end
   end
 
@@ -34,6 +36,8 @@ defmodule Blog.Web do
       import Ecto.Query, only: [from: 1, from: 2]
 
       import Blog.Router.Helpers
+
+      require IEx
     end
   end
 
