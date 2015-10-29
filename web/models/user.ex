@@ -55,7 +55,7 @@ defmodule Blog.User do
     from u in User, where: u.email == ^email
   end
 
-  # If the user cannot be found, do a dunmmy check to prevent timing
+  # If the user cannot be found, do a dummy check to prevent timing
   # attacks and report that the email/password combination did not match
   defp check_pw(nil, params) do
     Comeonin.Bcrypt.dummy_checkpw
