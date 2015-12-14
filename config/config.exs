@@ -30,6 +30,10 @@ config :guardian, Guardian,
   secret_key: guardian_secret,
   serializer: Blog.GuardianSerializer
 
+config :canary,
+  repo: Blog.Repo,
+  current_user: :guardian_default_resource
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

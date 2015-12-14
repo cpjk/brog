@@ -5,12 +5,13 @@ defmodule Blog.UserController do
 
   plug :scrub_params, "user" when action in [:create, :update]
 
-  def index(conn, _params) do
-    users = Repo.all(User)
-    render(conn, "index.html", users: users)
-  end
+  plug :load_and_authorize_resource, model: User
+  plug :redirect_if_unauthorized
 
-  def new(conn, _params) do
+  def index(conn, _params) do
+    render(conn, "index.html")
+  end
+def new(conn, _params) do
     changeset = User.create_changeset(%User{})
     render(conn, "new.html", changeset: changeset)
   end
@@ -29,19 +30,16 @@ defmodule Blog.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    user = Repo.get!(User, id)
-    render(conn, "show.html", user: user)
+    render(conn, "show.html")
   end
 
   def edit(conn, %{"id" => id}) do
-    user = Repo.get!(User, id)
-    changeset = User.update_changeset(user)
-    render(conn, "edit.html", user: user, changeset: changeset)
+    changeset = User.update_changeset(conn.assigns.user)
+    render(conn, "edit.html", changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
-    user = Repo.get!(User, id)
-    changeset = User.update_changeset(user, user_params)
+    changeset = User.update_changeset(conn.assigns.user, user_params)
 
     case Repo.update(changeset) do
       {:ok, user} ->
@@ -49,19 +47,26 @@ defmodule Blog.UserController do
         |> put_flash(:info, "User updated successfully.")
         |> redirect(to: user_path(conn, :show, user))
       {:error, changeset} ->
-        render(conn, "edit.html", user: user, changeset: changeset)
+        render(conn, "edit.html", changeset: changeset)
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    user = Repo.get!(User, id)
-
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
-    Repo.delete!(user)
+    Repo.delete!(conn.assigns.user)
 
     conn
     |> put_flash(:info, "User deleted successfully.")
     |> redirect(to: user_path(conn, :index))
   end
+
+  def redirect_if_unauthorized(conn = %Plug.Conn{assigns: %{authorized: false} }, opts) do
+    conn
+    |> put_flash(:error, "You can't access that page!")
+    |> redirect(to: "/")
+    |> halt
+  end
+
+  def redirect_if_unauthorized(conn = %Plug.Conn{assigns: %{authorized: true} }, opts), do: conn
 end

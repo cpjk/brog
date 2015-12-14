@@ -36,6 +36,7 @@ defmodule Blog.Web do
       import Ecto.Query, only: [from: 1, from: 2]
 
       import Blog.Router.Helpers
+      import Canary.Plugs
 
       require IEx
     end
