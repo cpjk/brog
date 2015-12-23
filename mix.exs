@@ -40,7 +40,7 @@ defmodule Blog.Mixfile do
      {:joken, "~> 0.15.0"},
      {:guardian, "~> 0.6.3"},
      {:exmoji, "~> 0.2.1"},
-     {:canary, "~> 0.10.4"}]
+     {:canary, "~> 0.11.0"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
