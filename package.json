@@ -8,5 +8,8 @@
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.9"
+  },
+  "dependencies": {
+    "jquery": "^2.1.4"
   }
 }

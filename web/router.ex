@@ -16,6 +16,14 @@ defmodule Blog.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_flash
+  end
+
+  scope "/api", Blog, as: :api do
+    pipe_through [:api, :browser_session]
+
+    resources "/comments", API.CommentController
   end
 
   scope "/", Blog do
@@ -24,6 +32,7 @@ defmodule Blog.Router do
     get "/", PageController, :index
 
     resources "/users", UserController
+    get "/comments", CommentController, :index
 
     get "/login", SessionController, :new
     post "/login", SessionController, :create
