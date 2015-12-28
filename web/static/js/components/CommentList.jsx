@@ -7,7 +7,7 @@ export default class CommentList extends React.Component {
     // pass an empty array
     let commentNodes = []
     if (this.props.data != undefined){
-      commentNodes = this.props.data.map(function(comment){
+      commentNodes = this.props.data.map( comment => {
         return (
           <Comment user={comment.user} key={comment.id}>
             {comment.text}

@@ -14,12 +14,12 @@ export default class CommentBox extends React.Component {
       url: this.props.url,
       dataType: 'json',
       cache: false,
-      success: function(data) {
+      success: data => {
         this.setState({data: data.comments});
-      }.bind(this),
-      error: function(xhr, status, err) {
+      },
+      error: (xhr, status, err) => {
         console.error(this.props.url, status, err.toString());
-      }.bind(this)
+      }
     });
   }
 
