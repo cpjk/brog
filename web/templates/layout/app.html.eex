@@ -16,9 +16,9 @@
       <div class="header">
         <ul class="nav nav-pills pull-right">
         <%= if Guardian.Plug.current_resource(@conn) do %>
-          <li><%= link("Logout", to: session_path(@conn, :delete), method: :delete) %></li>
+          <li><%= button("Logout", to: session_path(@conn, :delete), method: :delete, class: "btn btn-default") %></li>
         <% else %>
-          <li><%= link("Login", to: session_path(@conn, :new)) %></li>
+          <li><%= link("Login", to: session_path(@conn, :new), class: "btn btn-default") %></li>
         <% end %>
         </ul>
         <span class="logo"></span>
