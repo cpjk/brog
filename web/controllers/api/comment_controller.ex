@@ -15,14 +15,13 @@ defmodule Blog.API.CommentController do
     # associate the comment with the current user
     comment = Ecto.build_assoc(current_user(conn), :comments)
     changeset = Comment.create_changeset(comment, comment_params)
-    IEx.pry
 
     case Repo.insert(changeset) do
       {:ok, comment} ->
         conn
         |> put_status(:created)
         |> put_resp_header("location", comment_path(conn, :index))
-        |> render(Blog.CommentView, "index.html")
+        |> render(Blog.API.CommentView, "index.json", comments: comments_with_users)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
