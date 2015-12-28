@@ -62,6 +62,9 @@ defmodule Blog.API.CommentController do
 
   defp current_user(conn) do
     conn.assigns.guardian_default_resource
+  end
 
+  defp comments_with_users() do
+    comments = Repo.all(Comment) |> Blog.Repo.preload(:user)
   end
 end
