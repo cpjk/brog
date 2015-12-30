@@ -64,12 +64,12 @@ def new(conn, _params) do
     |> redirect(to: user_path(conn, :index))
   end
 
-  def redirect_if_unauthorized(conn = %Plug.Conn{assigns: %{authorized: false} }, opts) do
+  def redirect_if_unauthorized(conn = %Plug.Conn{assigns: %{authorized: false} }, _opts) do
     conn
     |> put_flash(:error, "You can't access that page!")
     |> redirect(to: "/")
     |> halt
   end
 
-  def redirect_if_unauthorized(conn = %Plug.Conn{assigns: %{authorized: true} }, opts), do: conn
+  def redirect_if_unauthorized(conn = %Plug.Conn{assigns: %{authorized: true} }, _opts), do: conn
 end
