@@ -6,12 +6,13 @@ defmodule Blog.UserController do
   plug :scrub_params, "user" when action in [:create, :update]
 
   plug :load_and_authorize_resource, model: User
-  plug :redirect_if_unauthorized
+  plug :handle_not_found
 
   def index(conn, _params) do
     render(conn, "index.html")
   end
-def new(conn, _params) do
+
+  def new(conn, _params) do
     changeset = User.create_changeset(%User{})
     render(conn, "new.html", changeset: changeset)
   end
@@ -64,12 +65,12 @@ def new(conn, _params) do
     |> redirect(to: user_path(conn, :index))
   end
 
-  def redirect_if_unauthorized(conn = %Plug.Conn{assigns: %{authorized: false} }, _opts) do
-    conn
-    |> put_flash(:error, "You can't access that page!")
-    |> redirect(to: "/")
-    |> halt
+  defp handle_not_found(conn = %Plug.Conn{private: %{phoenix_action: :new}}, _opts), do: conn
+
+  defp handle_not_found(conn = %Plug.Conn{assigns: %{user: nil}}, _opts) do
+    conn |> Blog.ControllerHelpers.redirect_on_not_found
   end
 
-  def redirect_if_unauthorized(conn = %Plug.Conn{assigns: %{authorized: true} }, _opts), do: conn
+  defp handle_not_found(conn, _opts), do: conn
+
 end
