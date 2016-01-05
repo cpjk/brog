@@ -1,7 +1,6 @@
 defmodule Blog.ControllerHelpers do
   import Phoenix.Controller, only: [put_flash: 3, redirect: 2]
   import Plug.Conn, only: [halt: 1]
-  require IEx
 
   def redirect_on_not_found(conn) do
     conn

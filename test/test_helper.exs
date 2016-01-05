@@ -1,6 +1,5 @@
 ExUnit.start
 ExUnit.configure(timeout: 600_000)
-require IEx
 
 # create a new session for the given user
 defmodule TestHelpers do
