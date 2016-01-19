@@ -15,6 +15,16 @@ defmodule Blog.UserTest do
     assert changeset.valid?
   end
 
+  test "create user with email that is already taken fails" do
+    changeset = User.create_changeset(%User{}, @valid_attrs)
+    Repo.insert! changeset
+    duplicate_changeset = User.create_changeset(%User{}, @valid_attrs)
+
+    assert_raise Ecto.InvalidChangesetError, fn ->
+      Repo.insert! duplicate_changeset
+    end
+  end
+
   test "changeset with invalid attributes" do
     changeset = User.create_changeset(%User{}, @invalid_attrs)
     refute changeset.valid?

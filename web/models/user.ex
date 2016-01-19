@@ -33,11 +33,13 @@ defmodule Blog.User do
   def create_changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_create_fields, @optional_create_fields)
+    |> unique_constraint(:email)
   end
 
   def update_changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_update_fields, @optional_update_fields)
+    |> unique_constraint(:email)
   end
 
   def new_session_changeset(model, params \\ :empty) do
