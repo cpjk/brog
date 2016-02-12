@@ -6,7 +6,6 @@ defmodule Blog.UserController do
   plug :scrub_params, "user" when action in [:create, :update]
 
   plug :load_and_authorize_resource, model: User
-  plug :handle_not_found
 
   def index(conn, _params) do
     render(conn, "index.html")
@@ -64,14 +63,4 @@ defmodule Blog.UserController do
     |> put_flash(:info, "User deleted successfully.")
     |> redirect(to: user_path(conn, :index))
   end
-
-  defp handle_not_found(conn = %Plug.Conn{private: %{phoenix_action: action}}, _opts)
-    when action in [:new, :create], do: conn
-
-  defp handle_not_found(conn = %Plug.Conn{assigns: %{user: nil}}, _opts) do
-    conn |> Blog.ControllerHelpers.redirect_on_not_found
-  end
-
-  defp handle_not_found(conn, _opts), do: conn
-
 end
