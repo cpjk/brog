@@ -10,7 +10,7 @@ defmodule Blog.User do
     field :email, :string
     field :encrypted_password
     field :password, :string, virtual: true
-    has_many :comments, Blog.Comment
+    has_many :comments, Blog.Comment, on_delete: :delete_all
 
     timestamps
   end
