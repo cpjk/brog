@@ -19,7 +19,7 @@ defmodule Blog.UserControllerTest do
 
 
   setup do
-    conn = conn()
+    conn = build_conn()
     {:ok, conn: conn}
   end
 

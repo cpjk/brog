@@ -4,7 +4,7 @@ defmodule Blog.SessionControllerTest do
   alias Blog.User
 
   setup do
-    conn = conn()
+    conn = build_conn()
     {:ok, conn: conn}
   end
 
