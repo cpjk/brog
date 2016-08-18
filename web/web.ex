@@ -20,6 +20,7 @@ defmodule Blog.Web do
     quote do
       use Ecto.Model
 
+      import Ecto
       import Ecto.Changeset
       import Ecto.Query, only: [from: 1, from: 2]
 
@@ -32,7 +33,7 @@ defmodule Blog.Web do
       use Phoenix.Controller
 
       alias Blog.Repo
-      import Ecto.Model
+      import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 
       import Blog.Router.Helpers
@@ -67,7 +68,7 @@ defmodule Blog.Web do
       use Phoenix.Channel
 
       alias Blog.Repo
-      import Ecto.Model
+      import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
     end
   end
