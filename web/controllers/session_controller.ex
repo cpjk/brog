@@ -17,7 +17,7 @@ defmodule Blog.SessionController do
       true ->
         conn
         |> put_flash(:info, "Logged in")
-        |> Guardian.Plug.sign_in(changeset.model, :token)
+        |> Guardian.Plug.sign_in(changeset.data, :token)
         |> redirect(to: page_path(conn, :index))
       _    ->
         conn

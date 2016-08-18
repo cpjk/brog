@@ -21,28 +21,27 @@ defmodule Blog.User do
   @required_update_fields ~w()
   @optional_update_fields ~w(first_name last_name email password)
 
-  before_insert :maybe_update_password
-  before_update :maybe_update_password
-
   @doc """
   Creates a changeset based on the `model` and `params`.
 
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def create_changeset(model, params \\ :empty) do
+  def create_changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_create_fields, @optional_create_fields)
     |> unique_constraint(:email)
+    |> maybe_update_password
   end
 
-  def update_changeset(model, params \\ :empty) do
+  def update_changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_update_fields, @optional_update_fields)
     |> unique_constraint(:email)
+    |> maybe_update_password
   end
 
-  def new_session_changeset(model, params \\ :empty) do
+  def new_session_changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(email password), ~w())
   end

@@ -7,10 +7,12 @@ use Mix.Config
 
 {:ok, guardian_secret} = File.read("guardian_secret")
 
+config :blog, ecto_repos: [Blog.Repo]
+
 # Configures the endpoint
 config :blog, Blog.Endpoint,
-  url: [host: "localhost"],
   root: Path.dirname(__DIR__),
+  url: [host: "localhost"],
   secret_key_base: "Y1UsNEa127/mT27tigE2YPO/6BPAwziXo+3btejyhp6ijlLKzxlYb2PLhGIysRO/",
   render_errors: [accepts: ~w(html json)],
   pubsub: [name: Blog.PubSub,

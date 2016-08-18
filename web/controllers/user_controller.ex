@@ -19,6 +19,7 @@ defmodule Blog.UserController do
   def create(conn, %{"user" => user_params}) do
     changeset = User.create_changeset(%User{}, user_params)
 
+
     # trying to insert an invalid changeset will result in an error return value
     # with errors listed in changeset.errors , so we can just read the errors in the template
     # if there are any

@@ -17,6 +17,4 @@ defmodule TestHelpers do
   end
 end
 
-Mix.Task.run "ecto.create", ["--quiet"]
-Mix.Task.run "ecto.migrate", ["--quiet"]
-Ecto.Adapters.SQL.begin_test_transaction(Blog.Repo)
+Ecto.Adapters.SQL.Sandbox.mode(Blog.Repo, :manual)
