@@ -80,9 +80,7 @@ defmodule Blog.User do
     end
   end
 
-  @doc """
-  Update the password if a new password was provided
-  """
+  # Update the password if a new password was provided
   defp maybe_update_password(changeset) do
     case Ecto.Changeset.fetch_change(changeset, :password) do
       {:ok, password} ->
