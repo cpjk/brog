@@ -14,10 +14,10 @@ defmodule Blog.API.CommentController do
   def create(conn, %{"comment" => comment_params}) do
     # associate the comment with the current user
     comment = Ecto.build_assoc(current_user(conn), :comments)
-    changeset = Comment.create_changeset(comment, comment_params)
+    changeset = Comment.changeset(comment, comment_params)
 
     case Repo.insert(changeset) do
-      {:ok, comment} ->
+      {:ok, _comment} ->
         conn
         |> put_status(:created)
         |> put_resp_header("location", comment_path(conn, :index))
@@ -64,6 +64,6 @@ defmodule Blog.API.CommentController do
   end
 
   defp comments_with_users() do
-    comments = Repo.all(Comment) |> Blog.Repo.preload(:user)
+    Repo.all(Comment) |> Blog.Repo.preload(:user)
   end
 end
